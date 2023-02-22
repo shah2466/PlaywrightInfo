@@ -1,0 +1,11 @@
+Installing Playwright on lowside:
+Install NodeJS
+Install VS Code, Create a new folder in C Drive, open it in VS Code. Do not do this in a shared drive.
+OPen the terminal in VSCode
+type npm init -y to make this project folder a 'npm Project'. 
+Now install Playwright:
+npm i -D playwright -->to download playwright dependency
+
+To configure git in VS COde, run these in terminal inside the VSCode:
+  git config --global user.email "you@example.com"
+  git config --global user.name "Hemraj Shahi"
