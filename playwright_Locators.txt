@@ -41,6 +41,7 @@ locator.focus():	Focus the element
 locator.press():	Press single key
 locator.setInputFiles():	Pick files to upload
 locator.selectOption():	Select option in the drop down
+page.title(); Get title of the page
 
 
 Assertions: ****************************************
