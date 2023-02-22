@@ -1,0 +1,489 @@
+1) JavaScript Asynchronous Programming and Callbacks:
+JavaScript is synchronous by default, and is single threaded. This means that code cannot create new threads and run in parallel.
+Lines of code are executed in series, one after another. In other words, it is synchronous.
+The JavaScript engine executes a script from the top of the file and works its way down. It creates the 'execution contexts', pushes, and pops functions onto 
+and off the 'call stack' in the execution phase.
+If a function takes a long time to execute, you cannot interact with the web browser during the function’s execution because the page hangs.
+A function that takes a long time to complete is called a 'blocking function'. Technically, a blocking function blocks all the interactions on the webpage, 
+such as mouse click. An example of a blocking function is a function that calls an API from a remote server.
+
+Asynchronicity: means that if JavaScript has to wait for an operation to complete, it will execute the rest of the code while waiting.
+
+EVENT LOOP:  Used to acheive concurrency/Asynchronicity . Constantly running process that coordinates the tasks between the call stack and callback queue to achieve concurrency.
+To prevent a blocking function from blocking other activities, you typically put it in a callback function for execution later.
+Asynchronous means the JavaScript engine can execute other tasks while waiting for another task to be completed.
+
+When you call the setTimeout(), the JavaScript engine creates a new function execution context and places it on the call stack.
+The setTimeout() executes and creates a TIMER in the Web APIs component of the web browser. When the timer expires, the callback function 
+that was passed in the setTimeout() is placed to the callback queue.
+The event loop monitors both the call stack and the callback queue. when the call stack is empty, the event loop removes the callback function from the callback queue and places it 
+to call stack . Once the callback function is on the call stack, it is executed.
+
+Computers are asynchronous by design. Asynchronous means that things can happen independently of the main program flow. 
+In the current consumer computers, every program runs for a specific time slot and then it stops its execution to let another program continue their execution. 
+This thing runs in a cycle so fast that it's impossible to notice. We think our computers run many programs simultaneously, but this is an
+ illusion (except on multiprocessor machines). Programs internally use INTERRUPTS: a signal that's emitted to the processor to gain the attention of the system.
+
+JavaScript is a 'single-threaded programming language'. JavaScript engine can do only one thing at a time. However, it’s more precise to say that the JavaScript runtime 
+can do one thing at a time. This means that the JavaScript engine has 'only one call stack'. Therefore, it only can do one thing at a time.
+Asynchronous means the JavaScript engine can execute other tasks while waiting for another task to be completed. For example, the JavaScript engine can:
+-Request for data from a remote server.
+-Display a spinner
+-When the data is available, display it on the webpage.
+To do this, the JavaScript engine uses an EVENT LOOP.
+
+The call stack uses the stack data structure that works based on the LIFO (last-in-first-out) principle. The call stack is a COLLECTION of EXECUTION CONTEXTS.
+A call stack is a way for the JavaScript engine to keep track of its place in code that calls multiple functions.
+
+**vvi: calling console.log() also creates a 'function execution context'.
+
+1) Callback: a callback is a function that you pass into another function as an argument to execute at a later time.
+A callback is a simple function that's passed as a value to another function, and will only be executed when the event happens.
+eg: setTimeout(callback_function(), 1000). Here the callback function will be executed when 1000 milliseconds passes.
+We can do this because JavaScript has first-class functions, which can be assigned to variables and passed around to other functions (called higher-order functions).
+It's common to wrap all your client code in a 'load' event listener on the 'window' object, which runs the callback function only when the page is ready.
+You can't know when a user is going to click a button. So, you define an event handler for the click event. This event handler accepts a function, which will 
+be called when the event is triggered.
+
+Alternatives to callbacks:
+Starting with ES6, JavaScript introduced several features that help us with asynchronous code that do not involve using callbacks: Promises (ES6) and Async/Await.
+
+1) The setTimeout() is a METHOD of the WINDOW OBJECT. The setTimeout()  sets a timer and executes a callback function after the timer expires.
+setTimeout() is an asynchronous function, meaning that the timer function will not pause execution of other functions in the
+ functions stack. In other words, you cannot use setTimeout() to create a "pause" before the next function in the function stack fires.
+ In other words, it is used to delay the execution of a function while the javascript executes other code statements.
+
+Timeouts are cancelled using clearTimeout().
+
+To call a function repeatedly (e.g., every N milliseconds), consider using setInterval().
+
+1) PROMISE: a promise is an object that encapsulates the result of an asynchronous operation.
+To create a progression in which one function only fires after the completion of another function, use the Promise.
+A promise object has a state that can be one of the following:
+Pending
+Fulfilled with a value
+Rejected for a reason
+In the beginning, the state of a promise is pending, indicating that the asynchronous operation is in progress. 
+Depending on the result of the asynchronous operation, the state changes to either fulfilled or rejected.
+
+1) Async/await: You use the await keyword to wait for a Promise to settle either in resolved or rejected state. And you can use the await keyword only inside 
+an async function.
+async function display() {
+    let result = await sayHi();
+    console.log(result);
+}
+In this example, the await keyword instructs the JavaScript engine to wait for the sayHi() function to complete before displaying the message.
+
+1) Context: Context is related to objects. It refers to the object to which a function belongs.
+When the JavaScript engine executes the JavaScript code, it creates 'execution contexts'.
+
+
+1) Execution context:  An Execution Context refers to the code that is currently running and everything else that helps run it.
+Execution context (EC) is defined as the environment in which the JavaScript code is executed. The environment means the value of 'this' object, 
+variables, objects, functions and function arguments, the JavaScript code has ACCESS to at a particular time.
+The term 'execution context' is actually for all intents and purposes referring more to 'scope' and NOT context.
+JavaScript creates an environment to execute the code we write. It takes care of the memory creation for variables, functions, objects, and so on in the creation phase. 
+Finally it executes the code in the execution phase. This special environment is called the Execution Context.
+There can be many such environments (Execution Contexts) in a JavaScript application. Each execution context operates independently from the others.
+
+Each execution context has two phases: the creation phase and the execution phase. https://www.javascripttutorial.net/javascript-execution-context/
+i) Creation phase: the interpreter will first create a variable object (also called an activation object) that is composed of all the variables, function declarations, 
+and arguments defined inside the execution context. From there, the scope chain is initialized next, and the value of 'this' is determined LAST. 
+ii) Execution phase, code is interpreted and executed.
+
+'this' context: Context is most often determined by how a function is invoked. When a function is called as a method of an object, this is set to the object the 
+method is called on:
+var obj = {
+    foo: function() {
+        return this;   
+    }
+};
+obj.foo() === obj; // true
+
+Execution context in JavaScript is of three types:
+a) Global execution context (GEC): This is the DEFAULT execution context in which JS code start its execution when the file first loads in the browser. 
+All of the global code i.e. code which is not inside any function or object is executed inside the global execution context.
+Global execution context is present by default in 'execution context stack' and it is at the bottom of the stack. 
+GEC cannot be more than one because only one global environment is possible for JS code execution as the JS engine is single threaded.
+
+b) Functional execution context (FEC): Functional execution context is defined as the context created by the JS engine whenever it finds any function call. 
+Each function has its own execution context. It can be more than one. Functional execution context has access to all the code of the global execution context though 
+vice versa is not applicable. While executing the global execution context code, if JS engine finds a function call, it creates a new functional execution context for 
+that function. In the browser context, if the code is executing in 'strict mode', value of 'this' is 'undefined', else it is window object in the function execution context.
+
+c) Eval: Execution context inside eval function. Code executed inside an eval function also gets its own execution context, but as eval isn’t usually used by JavaScript 
+developers, so lets not discuss it here.
+
+Execution context stack (ECS): Execution context stack is a stack data structure, i.e. last in first out (LIFO) data structure, to store all the execution stacks 
+created during the life cycle of the script. Global execution context is present by default in execution context stack and it is at the bottom of the stack.
+When the JavaScript interpreter initially executes code, it first enters into a global execution context by default. 
+Each invocation of a function from this point on will result in the creation of a new execution context.
+While executing the global execution context code, if JS engines find a function call, it creates a functional execution context for that function and pushes 
+it on top of the execution context stack. JS engine executes the function whose execution context is at the top of the execution context stack. 
+Once all the code of the function is executed, JS engines pop out that function’s execution context and start’s executing the function which is below it.
+
+
+/****************************/
+
+1) ${expression} = Placeholder
+
+
+
+5) Require(argument). This function is similar to import function.
+In NodeJS, require() is a built-in function to include external modules that exist in separate files. require() statement basically reads a JavaScript file, executes it, and 
+then proceeds to return the export object. require() statement not only allows to add built-in core NodeJS modules but also community-based and local modules.
+One of the major differences between require() and import() is that require() can be called from anywhere inside the program whereas import() cannot be called conditionally, it always runs at the beginning of the file.
+
+To use the require() statement, a module must be saved with .js extension as opposed to .mjs when the import() statement is used.
+
+How to export class with static methods in Node.js?
+	We know JS static keyword defines static properties and methods for a class. Static method or properties can not be called from instances of the class. 
+Instead, they’re calling from the class itself.
+class Car {
+    static run() { console.log('Car running...') }
+}
+
+// Error: (intermediate value).run
+// is not a function
+( new Car() ).run()
+
+// Car running...
+Car.run()
+
+Relation between require() and module.exports: By default, module.exports point to an object. The value of module.exports can be literal, function, object, etc. 
+When we export a module, it means we export the value of module.exports. 
+
+The task of require() function is to import the value of module.exports in the module from where it was called. The value returned by the require() function 
+in moduleB is equal to the module.exports object in the moduleA. So, the Relation is shown below.
+
+require() == module.exports
+Export class with static method: If you want to export a class with a static method from NodeJS module then the idea is as simple as exporting a class itself. 
+// Export this module
+module.exports = Car //CAR is a class with Static method inside it.
+
+If, you want to export a module in a form of an object then, add class Car as a property of module.exports as shown below:
+// myModule module
+class Car{
+    static run() { console.log('Car running...') }
+}
+  
+// Export this module add class Car as a property of module.exports
+module.exports = { Car }
+
+6) HOISTING: JavaScript Hoisting refers to the process whereby the interpreter appears to move the declaration of functions, variables or classes to the top of their scope, 
+prior to execution of the code.
+var: variables are hoisted to the top of their scope and initialized with a value of UNDEFINED.
+let: declarations are hoisted to the top. Unlike var which is initialized as undefined, the let keyword is NOT initialized. 
+  if you try to use a 'let' variable before declaration, you'll get a Reference Error.
+Const: declarations are hoisted to the top but are NOT initialized.
+Hoisting is more of a compile-time thing. 
+JavaScript interpreter hoists the 'entire' function declaration to the top of the current scope. In other words, they are parsed and evaluated before any other 
+code (This is opposed to 'function expressions', which are evaluated inline).
+Function hoisting only works with function declarations — not with function expressions. The code below will not work.
+
+console.log(square); // ReferenceError: Cannot access 'square' before initialization
+const square = function (n) {
+  return n * n;
+};
+
+7) In computer programming, to 'bind' is to create a connection between two or more programming objects for a specified time.
+
+7) Var vs Const vs Let
+VAR: The scope is global when a var variable is declared outside a function. var is function scoped when it is declared within a function.
+	var variables can be re-declared and updated.
+
+LET: let is now preferred for variable declaration. 'let' is block scoped. A block is a chunk of code bounded by {}. A block lives in curly braces. 
+Anything within curly braces is a block. So a variable declared in a block with 'let'  is only available for use within that block.
+'let' can be UPDATED but NOT re-declared.
+
+CONST: Variables declared with the const maintain constant values. const declarations share some similarities with let declarations.
+const declarations are block scoped. **const cannot be updated or re-declared**
+Every const declaration, therefore, MUST BE INITIALIZED at the time of declaration.
+
+****This behavior is somehow different when it comes to objects declared with const. While a const object cannot be updated, the PROPERTIES of this objects can be updated.
+
+8) Functions: functions are first-class citizens in JavaScript. Therefore, you can pass a function to another function as an argument.
+
+Anonymous functions: function without a name. An anonymous function is not accessible after its initial creation. Therefore, you often need to assign it to a variable.
+Note that if you don’t place the anonymous function inside the (), you’ll get a syntax error. 
+The () makes the anonymous function an expression that RETURNS A FUNCTION OBJECT.
+Anonymous functions can be used as an argument to other functions or as an immediately invoked function execution.
+
+Immediately invoked function execution.
+(function () {
+    console.log('Immediately invoked function execution');
+})();
+
+Arrow function: shorthand for declaring anonymous function.
+An arrow function DOES NOT have its own 'this'; the 'this' value of the enclosing execution context is used. Thus, in the following code, the 'this' within the function that is 
+passed to setInterval has the same value as 'this' in the enclosing function:
+
+function Person() {
+  this.age = 0;
+
+  setInterval(() => {
+    this.age++; // `this` properly refers to the person object
+  }, 1000);
+}
+
+const p = new Person();
+
+9) **When you define a function, the JavaScript engine adds the function to the global object.
+**Likewise, if you declare a variable outside of a function using the var keyword, the JavaScript engine also adds the variable to the global object.
+If you have many global variables and functions, the JavaScript engine will only release the memory allocated for them until the global object loses its scopes.
+As a result, the script may use the memory inefficiently. On top of that, having global variables and functions will likely cause name collisions.
+One way to prevent the functions and variables from polluting the global object is to use immediately invoked function expressions.
+By placing functions and variables inside an immediately invoked function expression, you can avoid polluting them to the global object.
+
+(function() {
+    var counter = 0;
+
+    function add(a, b) {
+        return a + b;
+    }
+
+    console.log(add(10,20)); // 30
+}());
+An IIFE can have a name. However, it cannot be invoked again after execution:
+
+10)  function can be also declared as an expression which is called a function expression:
+let sum = (function(a, b) {
+    return a + b;
+})
+In this syntax, the part on the right side of the assignment operator(=) is a function expression. Because a function is an expression, you can wrap it inside parentheses.
+
+11) Function methods: apply, call, and bind
+A function object has three important methods: apply(), call() and bind(). 
+bind(), call(), and apply() methods are also known as borrowing functions (explained at the end).
+Call is a function that helps you change the context of the invoking function. In layperson's terms, it helps you replace the value of this inside a function with whatever value you want.
+Apply is very similar to the call function. The only difference is that in apply you can pass an array as an argument list.
+Bind is a function that helps you create another function that you can execute later with the new context of this that is provided.
+
+The apply() and call() methods call a function with a given 'this' value and arguments.
+The difference between the apply() and call() is that you need to pass the arguments to the apply() 
+method as an array-like object, whereas you pass the arguments to the call() function individually.
+
+The bind() method creates a new function instance whose 'this' value is bound to the object that you provide.
+Bind() method creates a new function that you can execute later while the call() method executes the function immediately.
+
+12) JavaScript functions can return a single value. To return multiple values from a function, you can pack the return values as 
+elements of an array or as properties of an object.
+
+13) DESTRUCTURING
+Note: Curly brackets ‘{ }’ are used to destructure the JavaScript Object properties.
+Note: Square brackets ‘[ ]’ are used to destructure the JavaScript Array.
+
+14) Primitive vs Reference value:
+Primitive values are atomic pieces of data while reference values are objects that might consist of multiple values.
+These data types are pretty simple, and are sometimes treated as the lowest level of implementation of a programming language. They are not objects, and do not have methods.
+Note that 'strings' are objects in many programming languages, including Java and C#. However, strings are primitive values in JavaScript.
+JavaScript converts primitive strings to string objects, so that it is possible to use string object methods.
+
+Reference variable is a variable stored in STACK memory that refers to an object on HEAP memory.
+Because static data has a size that does not change, the JavaScript engine allocates a fixed amount of memory space to the static data and store it on the stack.
+Static data is the data whose size is fixed at compile time. Static data includes:
+a) Primitive values (null, undefined, boolean, number, string, symbol, and BigInt)
+b) Reference values that refer to objects.
+
+Non-Static data is stored in HEAP memory. JavaScript 'object's and 'functions' are non-static and live in heap.
+The JavaScript engine doesn’t allocate a fixed amount of memory for these objects. Instead, it’ll allocate more space as needed.
+Unlike a reference value, a primitive value cannot have properties. This means that you cannot add a property to a primitive value.
+JavaScript allows you to add a property to a primitive value. However, it won’t take any effect.
+
+Copying a value:
+When you assign a PRIMITIVE value from one variable to another, the JavaScript engine creates a SEPARATE copy of that value and assigns it to the variable.
+If you change the value of one variable, it won’t affect the other. 
+
+When you assign a REFERENCE value from one variable to another, the JavaScript engine creates a reference so that both variables refer to the same object on the heap memory. 
+This means that if you change one variable, it’ll affect the other.
+
+15) JavaScript pass-by-value or pass-by-reference:
+JavaScript passes all arguments to a function by values.
+Function arguments are local variables in JavaScript.
+In JavaScript, all function arguments are always passed by value. It means that JavaScript copies the values of the variables into the function arguments.
+Any changes that you make to the arguments inside the function do not reflect the passing variables outside of the function. 
+In other words, the changes made to the arguments are not reflected outside of the function.
+
+If function arguments are passed by reference, the changes of variables that you pass into the function will be reflected outside the function. 
+This is not possible in JavaScript.
+
+Parameters are essentially passed to functions by 'value' — so if the code within the body of a function assigns a completely new value to a parameter that was passed to the 
+function, the change is not reflected globally or in the code which called that function.
+When you pass an 'object' as a parameter, if the function changes the object's properties, that change is visible outside the function.
+When you pass an 'array' as a parameter, if the function changes any of the array's values, that change is visible outside the function.
+
+16) Function are firstclass citizens: An entity that can be constructed at run-time, passed as a parameter, returned from a function, or assigned into a variable.
+You can pass functions to other functions as arguments, return them from other functions as values, and store them in variables.
+"If any programming language has the ability to treat functions as values, to pass them as arguments and to return a function from another function then it is 
+said that programming language has First Class Functions and the functions are called as First Class Citizens in that programming language."
+ In languages with first-class functions, the names of functions do not have any special status; they are treated like ordinary variables with a function type.
+ A member of a class of individuals that receive fair treatment.
+ **Very loosely, this just means we can use a function in the same way we use a variable.
+
+
+
+20) For Loop: For..of vs For..in
+Difference for..in and for..of: **Arrays are OBJECT is JS but their KEYS are indices, not the properties.
+Since arrays are just fancy objects in JavaScript, this also means we can be a bit crazy and attach new properties to arrays.
+If you're using a library of code developed by someone, then they could have attached non-integer properties to their arrays. 
+This is why it's generally preferable to use arrays with for...of and objects with for...in.
+OBjects are NOt iterable by default. They can be made iterable by defining the Symbol.iterator property.
+
+Both for..in and for..of are looping constructs which are used to iterate over data structures. The only difference between them is the entities they iterate over:
+for..in iterates over all enumerable 'property keys' of an object.
+for..of iterates over the values of an iterable object. Examples of iterable objects are arrays, strings, and NodeLists.
+The values which an iterable data structure will return using for..of is dependent on the type of iterable object. 
+For example an array will return the values of all the array elements whereas a string returns every individual character of the string.
+So you can use:
+for .. of for [array, Map, Set, String] to iterate over values; 
+for...of loop only iterates through the integer properties of an array. That is, only the indices of the array.
+for .. in for an array to iterate over a key;
+for .. in for objects to enumerate its (object's) properties;
+
+Just remember! 
+1. for (every prop in objects) { // do this }      *objects - enumerable*
+2. for (every item of array) { // do this }          *arrays - iterable**
+
+The for…in loop is used to enumerate. We can use this on objects and arrays.
+
+The for…of loop is used to iterate. We can only use this on arrays.
+
+Enumerable: Enumeration is a listing of all of the elements of a set. It is a fancy word for counting.
+Enumerable properties are properties of an object whose internal enumerable flag (property descriptor) is set to true, which is the 
+default for properties created via simple assignment or via a property initializer. When we create an object by assigning it to a variable, 
+each property will have the enumerable descriptor set to true. We can actually set the enumerable 
+descriptor to false to hide properties during a for...in loop by using Object.defineProperty or Object.defineProperties.
+
+If we try using a for...of loop with an object, it will likely fail. This is because objects aren't considered iterable or array-like by default.
+There are ways to make an object iterable, but it seems like a lot of overhead when we can 
+easily iterate through keys or values of an object using Object.keys, Object.values, or Object.entries.
+
+Summary by me*****: for..in gives you keys. For..of give value of each element in the Array based on the integer indices. If we add a key value pair (object) inside
+an array, that object is NOT iterable. Meaning, it does not get the integer indices that we need to access the value of that object.
+Without having the intiger indices of an array element, we can't access the value of it.
+
+The for...in statement iterates only over enumerable, non-symbol properties, including inherited 
+enumerable properties.
+The for...in loop will traverse all integer keys before traversing other keys, and in strictly increasing order.
+for...in loop will return all enumerable properties, including those with non–integer names and those that are inherited.
+For and FOr..of loop will return the index as a 'number' instead of a string, and also avoid non-index properties.
+
+A for...of loop operates on the VALUES sourced from an iterable one by one in sequential order. Each operation of the loop on a value is called an iteration, and 
+the loop is said to iterate over the iterable. Each iteration executes statements that may refer to the current sequence value.
+
+
+21) @@iterator = Symbol.iterator.
+
+21) String literals vs OBject literals:
+A string literal is zero or more characters enclosed in double (") or single quotation marks (')
+eg: "foo"
+An object literal is a list of zero or more pairs of property names and associated values of an object, enclosed in curly braces ({}).
+eg: const car = {
+  myCar: "Toyota",
+};
+
+22) Constructor:
+A constructor is just a function called using the new keyword. When you call a constructor, it will:
+-create a new object
+-bind 'this' to the new object, so you can refer to this in your constructor code
+-run the code in the constructor
+-return the new object.
+Constructors, by convention, start with a capital letter and are named for the type of object they create.
+
+23) Object Prototype: it is a way to implement inheritance.
+Prototypes are the mechanism by which JavaScript objects inherit features from one another.
+Every object in JavaScript has a built-in property, which is called its prototype. The prototype is itself an object, so the prototype 
+will have its own prototype, making what's called a prototype chain. The chain ends when we reach a prototype that has null for its own prototype.
+The standard way to access an object's prototype is the Object.getPrototypeOf() method.
+When you try to access a property of an object: if the property can't be found in the object itself, the prototype is searched for the property. 
+If the property still can't be found, then the prototype's prototype is searched, 
+and so on until either the property is found, or the end of the chain is reached, in which case undefined is returned.
+Object.getPrototypeOf(myObject); // Object { }
+This is an object called Object.prototype, and it is the most basic prototype, that all objects have by default. 
+The prototype of Object.prototype is null, so it's at the end of the prototype chain.
+The prototype of an object is not always Object.prototype.
+
+ArrayPrototype: prototype allows you to add new properties and methods to arrays. prototype is a property available with all JavaScript objects.
+Syntax: Array.prototype.name = value. The value can be a function or anything.
+
+24) Shadowing properties: similar to overriding from java??
+What happens if you define a property in an object, when a property with the same name is defined in the object's prototype?
+--nothing happens, the property of the object is used, not the property in object's prototype.
+
+-----read these:
+https://www.javascripttutorial.net/javascript-call-stack/
+https://www.javascripttutorial.net/javascript-callback/
+https://www.javascripttutorial.net/javascript-bom/javascript-settimeout/
+https://www.javascripttutorial.net/es6/javascript-promises/
+https://www.javascripttutorial.net/javascript-regular-expression/
+
+25) What does the runtime environment mean in Node.js
+Essentially, everything that happens in the context of running Node.js app.
+When you're writing code, you're not in a “runtime environment”. The moment you do “npm start” (or whatever command you're using to start your application), you're in a 
+“runtime environment”. We could get technical and talk about the computer science-y definitions of these things, but that's only helpful to a certain extent. 
+It's more convenient and practical to have the mental model above. The reason we talk about the runtime environment is simply to distinguish what the context is of 
+your app. For example, with languages like Java, the app is compiled, so it has different runtime characteristics than a JavaScript app (which isn't compiled). 
+This means that Java will catch certain errors during compilation before running the app, whereas an uncompiled language like JavaScript won't catch a lot of things, except 
+for some syntax errors, etc. This is an important distinction because the runtime environment of JavaScript usually necessitates that you have a lot of type/variable 
+checking and error handling, since a lot of this stuff isn't caught until you actually run the app.
+
+26) How often do software developers use OOP?
+Any time you write a program longer than about 1,000 lines, you should use OOP. 1000 lines? Why’s that? Because a single program longer than 1,000 lines gets hard to 
+page through looking for a particular function or bit of code. You’re spending more time paging up and down than writing code. You need to break this code up into 
+chunks that can be separately dealt with. Objects are little programs that (should) average way less than 1,000 lines. The communication between objects is 
+sufficiently stylized that you can deal with the objects separately. Yes, you can break a million line procedural program into separate files (in fact you must). 
+But it’s hard to remember what files contain what stuff. Another problem with a big procedural program is that the global namespace fills up. Once you have 20,000 
+free functions and global variables in your global namespace, obvious names like “move” and “copy” tend to be used up. With OOP, the names of methods and variables are 
+enclosed in a namespace of objects. Your 20,000 function become 100 classes, and the global namespace becomes easier to work with.
+
+26) JavaScript `this` Keyword + 5 Key Binding Rules:
+In JavaScript, the this keyword allows us to:
+1) Reuse functions in different execution contexts. It means, a function once defined can be invoked for different objects using the this keyword.
+2) dentifying the object in the current execution context when we invoke a method.
+
+The 'this' keyword is very closely associated with JavaScript functions. When it comes to this, the fundamental thing is to understand where a function is invoked. 
+Because we don't know what is in the this keyword until the function is invoked. The usage of this can be categorized into five different binding aspects. 
+In this article, we will learn about all five aspects with examples:
+https://www.freecodecamp.org/news/javascript-this-keyword-binding-rules/#:~:text=In%20JavaScript%2C%20the%20this%20keyword,when%20we%20invoke%20a%20method.
+
+What is Binding?***********************
+In JavaScript, a 'Lexical Environment' is where your code is physically written. In the example below, the variable 'name' is lexically inside the function sayName().
+function sayName() {
+  let name = 'someName';
+  console.log('The name is, ', name);
+ }
+'An Execution Context': refers to the code that is currently running and everything else that helps run it.
+There can be lots of 'lexical environments' available but the one that is currently running is managed by the Execution Context.
+Each of the 'Execution Context' contains an 'Environment Record'. As JavaScript engine executes the code, variables and function names gets added to the Environment Record.
+This phenomenon is known as 'Binding' in JavaScript. Binding helps associate the identifiers(variables, function names) with the 'this' keyword for an execution context.
+
+Rule #1: How JavaScript 'Implicit Binding' Works?
+  Implicit binding covers most of the use-cases for dealing with the this keyword. When we invoke a method of an object, we use the dot(.) notation to access it.
+  In implicit binding, you need to check the object adjacent to the method 'at the invocation time'. This determines what this is binding to.
+  So, in the case of implicit binding, 'this' binds to the object adjacent to the dot(.) operator while invoking the method.
+Rule #2: How JavaScript 'Explicit Binding' Works?
+  We have seen that JavaScript creates an environment to execute the code we write. It takes care of the memory creation for variables, functions, objects, and 
+  so on in the creation phase. Finally it executes the code in the execution phase. This special environment is called the Execution Context.
+  There can be many such environments (Execution Contexts) in a JavaScript application. Each 'execution context' operates 'independently' from the others.
+  But at times, we may want to use stuff from one execution context in another. That is where 'explicit binding' comes into play.
+  In explicit binding, we can call a 'function with an object' when the function is 'outside' of the execution context of the object.
+  There are three very special methods, call(), apply() and bind() that help us achieve explicit binding.
+  call(): With the call() method, the context with which the function has to be called will be passed as a parameter to the call(). Meaning: Call the function on which object.
+  apply(): It is exactly the same as call() but allows you to pass the arguments more conveniently. Here we are able to pass an array of arguments, which is much more 
+    convenient than passing them one by one. Tip: When you only have one value argument or no value arguments to pass, use call(). 
+    When you have multiple value arguments to pass, use apply().
+  bind(): Unlike the call() method of calling the function directly, bind() 'returns a brand new function' and we can invoke that instead.
+
+
+Rule #3: The JavaScript 'new' Binding:
+  A new keyword is used to create an object from the constructor function.
+  When a function is invoked with the new keyword, JavaScript creates an internal 'this' object(like, this = {}) within the function. 
+  The newly created 'this' binds to the object being created using the new keyword.
+Rule #4: JavaScript Global Object Binding:
+  If the 'this' keyword is NOT resolved with any of the bindings, implicit, explicit or new, then the 'this' is bound to the window(global) object.
+  There is one exception though. JavaScript strict mode does not allow this default binding. In the above case, this is undefined.
+Rule #5: HTML Event Element Binding in JavaScript:
+  In HTML event handlers, this binds to the HTML elements that receive the event.
+There is one more case where this behaves differently, such as with ES6 arrow functions.*******************************
+
+27) 'window' object is present only in the context of browser. When running application on nodejs no window object is available.
