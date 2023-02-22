@@ -6,6 +6,9 @@ type npm init -y to make this project folder a 'npm Project'.
 Now install Playwright:
 npm i -D playwright -->to download playwright dependency
 
+To be able to write Playwright test, you have to install: npm install -D @playwright/test
+To run Playwright test: npx playwright test
+
 To configure git in VS COde, run these in terminal inside the VSCode:
   git config --global user.email "you@example.com"
   git config --global user.name "Hemraj Shahi"
