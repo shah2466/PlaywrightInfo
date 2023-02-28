@@ -1,6 +1,16 @@
 1) JavaScript Asynchronous Programming and Callbacks:
-JavaScript is synchronous by default, and is single threaded. This means that code cannot create new threads and run in parallel.
-Lines of code are executed in series, one after another. In other words, it is synchronous.
+Computers are asynchronous by design. Asynchronous means that things can happen independently of the main program flow. 
+In the current consumer computers, every program runs for a specific time slot and then it stops its execution to let another program continue their execution. 
+This thing runs in a cycle so fast that it's impossible to notice. We think our computers run many programs simultaneously, but this is an
+illusion (except on multiprocessor machines). Programs internally use INTERRUPTS: a signal that's emitted to the processor to gain the attention of the system.
+
+JavaScript is a 'single-threaded programming language'. This means that code cannot create new threads and run in parallel.
+Lines of code are executed in series, one after another. In other words, it is synchronous. JavaScript engine can do only one thing at a time. However, it’s more precise to say that the JavaScript 'runtime' can do one thing at a time. This means that the JavaScript engine has 'only one call stack'. 
+For example, the JavaScript engine can:
+-Request for data from a remote server.
+-Display a spinner
+-When the data is available, display it on the webpage.
+To do this, the JavaScript engine uses an EVENT LOOP.
 The JavaScript engine executes a script from the top of the file and works its way down. It creates the 'execution contexts', pushes, and pops functions onto 
 and off the 'call stack' in the execution phase.
 If a function takes a long time to execute, you cannot interact with the web browser during the function’s execution because the page hangs.
@@ -9,28 +19,13 @@ such as mouse click. An example of a blocking function is a function that calls 
 
 Asynchronicity: means that if JavaScript has to wait for an operation to complete, it will execute the rest of the code while waiting.
 
-EVENT LOOP:  Used to acheive concurrency/Asynchronicity . Constantly running process that coordinates the tasks between the call stack and callback queue to achieve concurrency.
-To prevent a blocking function from blocking other activities, you typically put it in a callback function for execution later.
-Asynchronous means the JavaScript engine can execute other tasks while waiting for another task to be completed.
+EVENT LOOP:  Used to acheive Concurrency/Asynchronicity . A constantly running process that coordinates the tasks between the call stack and callback queue to achieve concurrency.
+To prevent a blocking function from blocking other activities, you typically put it in a callback function for execution later. Meanwhile other javascript enginer runs other functions. A blocking function is put inside a callback function using setTimeout() function.
 
-When you call the setTimeout(), the JavaScript engine creates a new function execution context and places it on the call stack.
-The setTimeout() executes and creates a TIMER in the Web APIs component of the web browser. When the timer expires, the callback function 
+When you call the setTimeout(), the JavaScript engine creates a new 'function execution context' and places it on the call stack.
+The setTimeout() executes and creates a TIMER in the 'Web APIs' component of the web browser. When the timer expires, the callback function 
 that was passed in the setTimeout() is placed to the callback queue.
-The event loop monitors both the call stack and the callback queue. when the call stack is empty, the event loop removes the callback function from the callback queue and places it 
-to call stack . Once the callback function is on the call stack, it is executed.
-
-Computers are asynchronous by design. Asynchronous means that things can happen independently of the main program flow. 
-In the current consumer computers, every program runs for a specific time slot and then it stops its execution to let another program continue their execution. 
-This thing runs in a cycle so fast that it's impossible to notice. We think our computers run many programs simultaneously, but this is an
- illusion (except on multiprocessor machines). Programs internally use INTERRUPTS: a signal that's emitted to the processor to gain the attention of the system.
-
-JavaScript is a 'single-threaded programming language'. JavaScript engine can do only one thing at a time. However, it’s more precise to say that the JavaScript runtime 
-can do one thing at a time. This means that the JavaScript engine has 'only one call stack'. Therefore, it only can do one thing at a time.
-Asynchronous means the JavaScript engine can execute other tasks while waiting for another task to be completed. For example, the JavaScript engine can:
--Request for data from a remote server.
--Display a spinner
--When the data is available, display it on the webpage.
-To do this, the JavaScript engine uses an EVENT LOOP.
+The event loop monitors both the call stack and the callback queue. When the call stack is empty, the event loop removes the callback function from the callback queue and places it on the call stack. Once the callback function is on the call stack, it is executed.
 
 The call stack uses the stack data structure that works based on the LIFO (last-in-first-out) principle. The call stack is a COLLECTION of EXECUTION CONTEXTS.
 A call stack is a way for the JavaScript engine to keep track of its place in code that calls multiple functions.
@@ -39,23 +34,21 @@ A call stack is a way for the JavaScript engine to keep track of its place in co
 
 1) Callback: a callback is a function that you pass into another function as an argument to execute at a later time.
 A callback is a simple function that's passed as a value to another function, and will only be executed when the event happens.
-eg: setTimeout(callback_function(), 1000). Here the callback function will be executed when 1000 milliseconds passes.
+eg: setTimeout(callback_function(), 1000). Here the callback function will be executed when 1000 milliseconds passes. The event is the passing of 1000 ms.
 We can do this because JavaScript has first-class functions, which can be assigned to variables and passed around to other functions (called higher-order functions).
 It's common to wrap all your client code in a 'load' event listener on the 'window' object, which runs the callback function only when the page is ready.
 You can't know when a user is going to click a button. So, you define an event handler for the click event. This event handler accepts a function, which will 
 be called when the event is triggered.
-
-Alternatives to callbacks:
-Starting with ES6, JavaScript introduced several features that help us with asynchronous code that do not involve using callbacks: Promises (ES6) and Async/Await.
-
-1) The setTimeout() is a METHOD of the WINDOW OBJECT. The setTimeout()  sets a timer and executes a callback function after the timer expires.
+The setTimeout() is a METHOD of the WINDOW OBJECT. The setTimeout()  sets a timer and executes a callback function after the timer expires.
 setTimeout() is an asynchronous function, meaning that the timer function will not pause execution of other functions in the
- functions stack. In other words, you cannot use setTimeout() to create a "pause" before the next function in the function stack fires.
+ functions stack. In other words, you CANNOT use setTimeout() to create a "pause" before the next function in the function stack fires.
  In other words, it is used to delay the execution of a function while the javascript executes other code statements.
-
 Timeouts are cancelled using clearTimeout().
 
 To call a function repeatedly (e.g., every N milliseconds), consider using setInterval().
+
+Alternatives to callbacks:
+Starting with ES6, JavaScript introduced several features that help us with asynchronous code that do not involve using callbacks: Promises (ES6) and Async/Await.
 
 1) PROMISE: a promise is an object that encapsulates the result of an asynchronous operation.
 To create a progression in which one function only fires after the completion of another function, use the Promise.
