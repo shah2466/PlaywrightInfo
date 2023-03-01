@@ -65,13 +65,12 @@ async function display() {
     let result = await sayHi();
     console.log(result);
 }
-In this example, the await keyword instructs the JavaScript engine to wait for the sayHi() function to complete before displaying the message.
+In this example, the await keyword instructs the JavaScript engine to wait for the sayHi() function to complete before executing console.log(result).
 
 1) Context: Context is related to objects. It refers to the object to which a function belongs.
-When the JavaScript engine executes the JavaScript code, it creates 'execution contexts'.
+When the JavaScript engine executes the JavaScript code, it creates 'EXECUTION CONTEXTS'.
 
-
-1) Execution context:  An Execution Context refers to the code that is currently running and everything else that helps run it.
+1) EXECUTION CONTEXTS:  An Execution Context refers to the 'code that is currently running' and 'everything else that helps to run it'.
 Execution context (EC) is defined as the environment in which the JavaScript code is executed. The environment means the value of 'this' object, 
 variables, objects, functions and function arguments, the JavaScript code has ACCESS to at a particular time.
 The term 'execution context' is actually for all intents and purposes referring more to 'scope' and NOT context.
@@ -104,8 +103,7 @@ Each function has its own execution context. It can be more than one. Functional
 vice versa is not applicable. While executing the global execution context code, if JS engine finds a function call, it creates a new functional execution context for 
 that function. In the browser context, if the code is executing in 'strict mode', value of 'this' is 'undefined', else it is window object in the function execution context.
 
-c) Eval: Execution context inside eval function. Code executed inside an eval function also gets its own execution context, but as eval isn’t usually used by JavaScript 
-developers, so lets not discuss it here.
+c) Eval: Execution context inside eval function. Code executed inside an eval function also gets its own execution context, but as eval isn’t usually used by JavaScript developers, so lets not discuss it here.
 
 Execution context stack (ECS): Execution context stack is a stack data structure, i.e. last in first out (LIFO) data structure, to store all the execution stacks 
 created during the life cycle of the script. Global execution context is present by default in execution context stack and it is at the bottom of the stack.
@@ -113,19 +111,24 @@ When the JavaScript interpreter initially executes code, it first enters into a 
 Each invocation of a function from this point on will result in the creation of a new execution context.
 While executing the global execution context code, if JS engines find a function call, it creates a functional execution context for that function and pushes 
 it on top of the execution context stack. JS engine executes the function whose execution context is at the top of the execution context stack. 
-Once all the code of the function is executed, JS engines pop out that function’s execution context and start’s executing the function which is below it.
+Once all the code of the function is executed, JS engines pop out that function’s execution context and start’s executing the function below it.
 
 
 /****************************/
-
+Template literals: are enclosed by backtick (`) characters instead of double or single quotes.
+Along with having normal strings, template literals can also contain other parts called PLACEHOLDERS, which are embedded expressions delimited by a dollar sign and curly braces: ${expression}. 
 1) ${expression} = Placeholder
+1) `template literal with ${expression} PLACEHOLDER (imbedded expression)`
 
-
+Exporting/IMporting:
+Syntax:
+module.exports = literal | function | object
+module.exports.variable = literal | function | object
 
 5) Require(argument). This function is similar to import function.
 In NodeJS, require() is a built-in function to include external modules that exist in separate files. require() statement basically reads a JavaScript file, executes it, and 
 then proceeds to return the export object. require() statement not only allows to add built-in core NodeJS modules but also community-based and local modules.
-One of the major differences between require() and import() is that require() can be called from anywhere inside the program whereas import() cannot be called conditionally, it always runs at the beginning of the file.
+One of the major differences between require() and import() is that 'require() can be called from anywhere inside the program' whereas import() cannot be called conditionally, it always runs at the 'beginning of the file'.
 
 To use the require() statement, a module must be saved with .js extension as opposed to .mjs when the import() statement is used.
 
@@ -143,10 +146,10 @@ class Car {
 // Car running...
 Car.run()
 
-Relation between require() and module.exports: By default, module.exports point to an object. The value of module.exports can be literal, function, object, etc. 
-When we export a module, it means we export the value of module.exports. 
+Relation between require() and module.exports: By default, module.exports pointS to an object. The value of module.exports can be literal, function, object, etc. 
+When we export a module, it means we export the VALUE of module.exports. 
 
-The task of require() function is to import the value of module.exports in the module from where it was called. The value returned by the require() function 
+The task of require() function is to 'import the value of module.exports' in the module from where it was called. The value returned by the require() function 
 in moduleB is equal to the module.exports object in the moduleA. So, the Relation is shown below.
 
 require() == module.exports
@@ -154,7 +157,7 @@ Export class with static method: If you want to export a class with a static met
 // Export this module
 module.exports = Car //CAR is a class with Static method inside it.
 
-If, you want to export a module in a form of an object then, add class Car as a property of module.exports as shown below:
+If, you want to export a module in a form of an object, then add class Car as a property of module.exports as shown below:
 // myModule module
 class Car{
     static run() { console.log('Car running...') }
