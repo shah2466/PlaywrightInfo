@@ -1,0 +1,52 @@
+
+Q: how does javascript playwright test automation framework make sure the tests are NOT flaky?
+  JavaScript Playwright is a test automation framework that provides a set of tools for automating web browser interactions. To ensure that tests are not flaky, there are several strategies that can be employed when writing tests using Playwright:
+1. Use await to ensure that asynchronous operations are completed before moving on to the next step in the test. This can help prevent race conditions and ensure that the test is executed consistently.
+2. Use explicit waits to ensure that the application under test has loaded completely before attempting to interact with it. This can help prevent flakiness caused by timing issues.
+3. Use stable selectors, such as IDs or data attributes, to identify elements in the application under test. This can help prevent flakiness caused by changes to the page structure or layout.
+4. Use parameterized tests to test different scenarios and inputs. This can help ensure that the test is comprehensive and covers edge cases.
+5. Run tests on multiple browsers and platforms to ensure that they are not dependent on a specific environment or configuration.
+6. Use a test runner that supports retrying failed tests. This can help prevent flakiness caused by intermittent issues.
+By employing these strategies, JavaScript Playwright can help ensure that tests are reliable and not flaky.
+
+Q: how does 'await' help in avoid flakiness when coding in javascript with playwright. Give me an example.
+  In JavaScript, many operations are asynchronous, meaning they do not complete immediately and may take some time to finish. If a test script moves on to the next step before the asynchronous operation has completed, it 
+  can result in flakiness because the result of the operation may not be available yet.
+Using the 'await' keyword in Playwright helps to avoid this issue by pausing the execution of the test script until the asynchronous operation has completed. 
+This ensures that the result of the operation is available before the script moves on to the next step. Here's an example:
+
+const { chromium } = require('playwright');
+
+(async () => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+
+  await page.goto('https://www.example.com/');
+  // Wait for an element to be visible on the page
+  await page.waitForSelector('#example-element');
+
+  // Interact with the element once it's visible
+  const element = await page.$('#example-element');
+  await element.click();
+
+  await browser.close();
+})();
+In this example, the 'waitForSelector' method is used with await to ensure that the '#example-element' is visible on the page before attempting to interact with it. 
+This helps to avoid flakiness caused by timing issues, such as the element not being available yet. 
+By waiting for the element to be visible before clicking on it, we can ensure that the test script executes reliably every time.
+
+While await does pause the execution of the script until the asynchronous operation has completed, it doesn't necessarily wait for a specific condition to be met 
+before moving on to the next step. In some cases, you may need to explicitly wait for a certain condition to be true before continuing with the script, and 
+that's where waitForSelector comes in. waitForSelector is a Playwright method that waits for a given selector to appear in the page DOM and become visible. 
+If the selector doesn't appear within a specified timeout, an error is thrown. By waiting for a specific element to become visible, you can ensure that the page 
+has loaded and is ready to be interacted with before moving on to the next step.
+In summary, await is a general-purpose way to pause the execution of the script until an asynchronous operation has completed, while waitForSelector is a more 
+specific method that waits for a certain element to become visible on the page before continuing with the script.
+
+ waitForSelector is an asynchronous function in Playwright. This means that when you call waitForSelector, it returns a Promise that resolves when the specified selector is found on the page 
+ and becomes visible, or rejects with an error if the selector is not found within the specified timeout.
+Because waitForSelector is an asynchronous function, you need to use await or handle the Promise returned by the function to ensure that the script 
+waits for the selector to become visible before continuing with the next step.
+
+
+
